@@ -52,20 +52,12 @@ public class BossComment : MonoBehaviour
             foreach (Transform t in Comments[i])
             {
                 GameObject g = t.gameObject;
-                if (t.gameObject.activeSelf)
+                if (t.gameObject.activeSelf && Mathf.Abs(PlayerPosition.x - t.position.x) < 3.8f && Mathf.Abs(PlayerPosition.y - t.position.y) < 0.4f)
                 {
-                    Vector2 CommentPosition = t.position;
-
-                    if (CommentPosition.x - 3.8 < PlayerPosition.x && PlayerPosition.x < CommentPosition.x + 3.8)
-                    {
-                        if (CommentPosition.y - 0.4 < PlayerPosition.y && PlayerPosition.y < CommentPosition.y + 0.4)
-                        {
-                            PlayerHP.HP -= 0.5f;
-                            GameObject director = GameObject.Find("GameDirector");
-                            director.GetComponent<GameDirector>().DecreasePlayerHP(PlayerHP.HP, PlayerHP.MaxHP);
-                            t.gameObject.SetActive(false);
-                        }
-                    }
+                    PlayerHP.HP -= 0.5f;
+                    GameObject director = GameObject.Find("GameDirector");
+                    director.GetComponent<GameDirector>().DecreasePlayerHP(PlayerHP.HP, PlayerHP.MaxHP);
+                    t.gameObject.SetActive(false);
                 }
             }
         }

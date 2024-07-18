@@ -6,7 +6,7 @@ public class BossBullet : MonoBehaviour
 {
     float span = 0.6f, delta = 0f, AngleParam = 0f, AngleDif = 1f;
 
-    public static float PlayerR = 0.2f;
+    public static float PlayerR = 0.1f;
     float BulletR = 0.1f;
 
     [SerializeField] GameObject bullet;
@@ -25,18 +25,15 @@ public class BossBullet : MonoBehaviour
     {
         this.delta += Time.deltaTime;
 
-        if (this.delta > this.span)
+        if (this.delta > this.span && BossHP.HP > 8f)
         {
-            // •úŽËó‚ÉL‚ª‚é‚²‚­ˆê”Ê“I‚È’e–‹
-            this.AngleParam += this.AngleDif;
-            if (this.AngleParam >= 45f) this.AngleDif = -1f;
-            if(this.AngleParam < 0f) this.AngleDif = 1f;
-
             this.delta = 0f;
-            for (int angle = 0; angle < 32; ++angle)
-            {
-                InstBullet(transform.position, Quaternion.Euler(0f, 0f, angle * 11.25f + AngleParam), bullet);
-            }
+            RadialBullet(45, 1);
+        }else if (this.delta > this.span && BossHP.HP > 6f)
+        {
+            this.span = 0.3f;
+            this.delta = 0f;
+            RadialBullet(10, 2);
         }
 
 
@@ -69,13 +66,26 @@ public class BossBullet : MonoBehaviour
         }
     }
 
+    // •úŽËó‚ÉL‚ª‚é‚²‚­ˆê”Ê“I‚È’e–‹
+    void RadialBullet(float limit, float difference)
+    {
+        this.AngleParam += this.AngleDif;
+        if (this.AngleParam >= limit) this.AngleDif = -difference;
+        if (this.AngleParam < 0f) this.AngleDif = difference;
+        
+        for (int angle = 0; angle < 32; ++angle)
+        {
+            InstBullet(transform.position, Quaternion.Euler(0f, 0f, angle * 11.25f + AngleParam));
+        }
+    }
+
 
     /********************************
      * 
      * ’e–‹‚ð¶¬‚·‚éŠÖ”
      * 
      ********************************/
-    void InstBullet(Vector3 pos, Quaternion rotation, GameObject bullet)
+    void InstBullet(Vector3 pos, Quaternion rotation)
     {
         foreach (Transform t in bullets)
         {
