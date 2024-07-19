@@ -24,6 +24,11 @@ public class BossBullet : MonoBehaviour
     
     void Update()
     {
+        if(PlayerHP.HP <= 0)
+        {
+            SceneChange.Result();
+        }
+        
         this.delta += Time.deltaTime;
 
         if (this.delta > this.span && BossHP.HP > 8f)
@@ -75,7 +80,12 @@ public class BossBullet : MonoBehaviour
         }
     }
 
-    // •úËó‚ÉL‚ª‚é‚²‚­ˆê”Ê“I‚È’e–‹
+
+    /**********************************
+     * 
+     * •úËó‚ÉL‚ª‚é‚²‚­ˆê”Ê“I‚È’e–‹
+     * 
+     **********************************/
     void RadialBullet(float limit, float difference)
     {
         this.AngleParam += this.AngleDif;
