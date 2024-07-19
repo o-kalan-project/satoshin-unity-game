@@ -35,17 +35,17 @@ public class PlayerController : MonoBehaviour
         Vector3 Pos = transform.position;
         if (! slow)
         {
+            if (right && Pos.x < 8) transform.Translate(0.04f, 0, 0);
+            if (left && Pos.x > -8) transform.Translate(-0.04f, 0, 0);
+            if (up && Pos.y < 5) transform.Translate(0, 0.04f, 0);
+            if (down && Pos.y > -2) transform.Translate(0, -0.04f, 0);
+        }
+        else
+        {
             if (right && Pos.x < 8) transform.Translate(0.01f, 0, 0);
             if (left && Pos.x > -8) transform.Translate(-0.01f, 0, 0);
             if (up && Pos.y < 5) transform.Translate(0, 0.01f, 0);
             if (down && Pos.y > -2) transform.Translate(0, -0.01f, 0);
-        }
-        else
-        {
-            if (right && Pos.x < 8) transform.Translate(0.005f, 0, 0);
-            if (left && Pos.x > -8) transform.Translate(-0.005f, 0, 0);
-            if (up && Pos.y < 5) transform.Translate(0, 0.005f, 0);
-            if (down && Pos.y > -2) transform.Translate(0, -0.005f, 0);
         }
     }
 }

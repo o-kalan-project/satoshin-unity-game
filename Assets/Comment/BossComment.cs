@@ -16,7 +16,7 @@ public class BossComment : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        N = 10;
+        N = 18;
 
         Random.InitState(System.DateTime.Now.Millisecond);
         this.player = GameObject.Find("Player");
@@ -36,6 +36,11 @@ public class BossComment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(BossHP.HP < 5f)
+        {
+            this.span = 1.5f;
+        }
+
         this.delta += Time.deltaTime;
         if (this.delta > this.span)
         {

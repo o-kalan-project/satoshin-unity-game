@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossBullet : MonoBehaviour
 {
-    float span = 0.6f, delta = 0f, AngleParam = 0f, AngleDif = 1f;
+    float span = 0.6f, delta = 0f, AngleParam = 0f, AngleDif = 1f, d;
 
     public static float PlayerR = 0.1f;
     float BulletR = 0.1f;
@@ -16,6 +16,7 @@ public class BossBullet : MonoBehaviour
     
     void Start()
     {
+        d = 0;
         this.player = GameObject.Find("Player");
         bullet = GameObject.Find("Bullets");
         bullets = new GameObject("Bullet").transform;
@@ -34,6 +35,14 @@ public class BossBullet : MonoBehaviour
             this.span = 0.3f;
             this.delta = 0f;
             RadialBullet(10, 2);
+        }
+        else if(this.delta > this.span)
+        {
+            this.span = 0.4f;
+            this.delta = 0f;
+            RadialBullet(180, this.AngleDif);
+            ++this.AngleDif;
+            if (this.AngleDif > 360) this.AngleDif = 0;
         }
 
 
