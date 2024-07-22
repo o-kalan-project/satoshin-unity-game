@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossBullet : MonoBehaviour
 {
     float span = 0.6f, delta = 0f, AngleParam = 0f, AngleDif = 1f, d;
-    float span2 = 6f, delta2 = 0;
+    float span2 = 6f, delta2 = 0, HachioujiSpan = 1f, HachioujiDelta = 0f;
 
     public static float PlayerR = 0.1f;
     float BulletR = 0.1f, FollowBulletR = 0.15f;
 
     [SerializeField] GameObject bullet, followBullet;
     GameObject player;
+    GameObject[][] BulletGen = new GameObject[3][];
 
     Transform bullets, followBullets;
     
@@ -23,6 +25,13 @@ public class BossBullet : MonoBehaviour
         bullets = new GameObject("Bullet").transform;
         followBullet = GameObject.Find("FollowBullets");
         followBullets = new GameObject("FollowBullet").transform;
+        for(int i = 0; i < 3; ++i){
+            BulletGen[i] = new GameObject[3];
+            for(int j = 0; j < 3; ++j){
+                BulletGen[i][j] = GameObject.Find("T" + i.ToString() + j.ToString());
+                BulletGen[i][j].GetComponent<Text>().text = "ã€€";
+            }
+        }
     }
     
     void Update()
@@ -34,35 +43,37 @@ public class BossBullet : MonoBehaviour
         
         this.delta += Time.deltaTime; this.delta2 += Time.deltaTime;
 
-        // ’Ç]‚¶‚á‚È‚¢’e
+        // ï¿½Ç]ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½e
         if (this.delta > this.span && BossHP.HP > 8f)
         {
             this.delta = 0f;
-            RadialBullet(45, 1, bullet, bullets);
+            RadialBullet(45, 1, bullet, bullets, transform);
         }else if (this.delta > this.span && BossHP.HP > 6f)
         {
             this.span = 0.3f;
             this.delta = 0f;
-            RadialBullet(10, 2, bullet, bullets);
+            RadialBullet(10, 2, bullet, bullets, transform);
         }
         else if(this.delta > this.span)
         {
             this.span2 = 3f;
             this.span = 0.4f;
             this.delta = 0f;
-            RadialBullet(180, this.AngleDif, bullet, bullets);
+            RadialBullet(180, this.AngleDif, bullet, bullets, transform);
             ++this.AngleDif;
             if (this.AngleDif > 360) this.AngleDif = 0;
         }
 
-        // ’Ç]‚µ‚Ä‚­‚é’e
+        // ï¿½Ç]ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½e
         if(this.delta2 > this.span2)
         {
             this.delta2 = 0f;
             FollowBullet(followBullet, followBullets);
         }
 
-        // “–‚½‚è”»’è
+        HachioujiBullet(bullet, bullets);
+
+        // ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½
         CollisionDetection(BulletR, bullet, bullets);
         CollisionDetection(FollowBulletR, followBullet, followBullets);
 
@@ -70,13 +81,14 @@ public class BossBullet : MonoBehaviour
 
 
 
-
-    /**********************************
-     * 
-     * •úËó‚ÉL‚ª‚é‚²‚­ˆê”Ê“I‚È’e–‹
-     * 
-     **********************************/
-    void RadialBullet(float limit, float difference, GameObject bullet, Transform bullets)
+     /// <summary>
+     /// æ”¾å°„çŠ¶ã«åºƒãŒã‚‹ã”ãä¸€èˆ¬çš„ãªå¼¾å¹•
+     /// </summary>
+     /// <param name="limit">å¼¾å¹•ã®è§’åº¦</param>
+     /// <param name="difference">å¼¾å¹•ã®è§’åº¦ã®å·®</param>
+     /// <param name="bullet">å¼¾</param>
+     /// <param name="bullets">bulletã®clone</param>
+    void RadialBullet(float limit, float difference, GameObject bullet, Transform bullets, Transform BossTrans)
     {
         this.AngleParam += this.AngleDif;
         if (this.AngleParam >= limit) this.AngleDif = -difference;
@@ -84,29 +96,64 @@ public class BossBullet : MonoBehaviour
         
         for (int angle = 0; angle < 20; ++angle)
         {
-            InstBullet(transform.position, Quaternion.Euler(0f, 0f, angle * 18f + AngleParam), bullet, bullets);
+            InstBullet(BossTrans.position, Quaternion.Euler(0f, 0f, angle * 18f + this.AngleParam), bullet, bullets);
         }
     }
 
 
-    /**********************************
-     * 
-     * ’Ç]‚µ‚Ä‚­‚é‚¤‚´‚¢‚â‚Â
-     * 
-     **********************************/
+
+     /// <summary>
+     /// è¿½ã„ã‹ã‘ã¦ãã‚‹ã†ã–ã„å¼¾å¹•
+     /// </summary>
+     /// <param name="bullet">å¼¾</param>
+     /// <param name="bullets">bulletã®clone</param>
     void FollowBullet(GameObject bullet, Transform bullets)
     {
         float angle, tmp;
         tmp = (transform.position.y - this.player.transform.position.y) / (transform.position.x - this.player.transform.position.x);
-        angle = Mathf.Abs(Mathf.Atan(tmp)) * 180f / Mathf.PI + 180f;
+        angle = 180f + Mathf.Abs(Mathf.Atan(tmp)) * 180f / Mathf.PI;
 
         InstBullet(transform.position, Quaternion.Euler(0f, 0f, angle), bullet, bullets);
     }
 
 
+    /// <summary>
+    /// å…«ç‹å­å¼¾å¹•ã‚’å®Ÿç¾ã™ã‚‹ãŸã‚ã®é–¢æ•°
+    /// </summary>
+    /// <param name="bullet">å¼¾</param>
+    /// <param name="bullets">bulletã®cloneãŸã¡</param>
+    void HachioujiBullet(GameObject bullet, Transform bullets){
+        this.HachioujiDelta += Time.deltaTime;
+        if(HachioujiDelta >= 1f){
+            BulletGen[0][0].GetComponent<Text>().text = "å…«";
+            BulletGen[0][1].GetComponent<Text>().text = "ç‹";
+            BulletGen[0][2].GetComponent<Text>().text = "å­";
+        }
+        if(HachioujiDelta >= 2f){
+            BulletGen[1][0].GetComponent<Text>().text = "å…«";
+            BulletGen[1][1].GetComponent<Text>().text = "ç‹";
+            BulletGen[1][2].GetComponent<Text>().text = "å­";
+        }
+        if(HachioujiDelta >= 3f){
+            BulletGen[2][0].GetComponent<Text>().text = "å…«";
+            BulletGen[2][1].GetComponent<Text>().text = "ç‹";
+            BulletGen[2][2].GetComponent<Text>().text = "å­";
+        }
+        if(HachioujiDelta >= 5f){
+            for(int i = 0; i < 3; ++i){
+                for(int j = 0; j < 3; ++j){
+                    BulletGen[i][j].GetComponent<Text>().text = "ã€€";
+                    //RadialBullet(0, 0, bullet, bullets, BulletGen[i][j].transform);
+                }
+            }
+            this.HachioujiDelta = 0f;
+        }
+    }
+
+
     /********************************
      * 
-     * ’e–‹‚ğ¶¬‚·‚éŠÖ”
+     * ï¿½eï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
      * 
      ********************************/
     void InstBullet(Vector3 pos, Quaternion rotation, GameObject bullet, Transform bullets)
@@ -127,7 +174,7 @@ public class BossBullet : MonoBehaviour
 
     /**********************************
      * 
-     * “–‚½‚è”»’è‚ğ‚·‚éŠÖ”
+     * ï¿½ï¿½ï¿½ï¿½ï¿½è”»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
      * 
      **********************************/
     void CollisionDetection(float BulletR, GameObject bullet, Transform bullets)
@@ -141,7 +188,7 @@ public class BossBullet : MonoBehaviour
                 Vector2 dir = BulletPosition - PlayerPosition;
                 float d = dir.magnitude;
 
-                // ’e–‹‚É‚ß‚Á‚¿‚á‹ß‚©‚Á‚½‚çScore‚ğ‰ÁZ
+                // ï¿½eï¿½ï¿½ï¿½É‚ß‚ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Scoreï¿½ï¿½ï¿½ï¿½ï¿½Z
                 if (d < PlayerR + BulletR + 0.2f)
                 {
                     PlayerPrefs.SetInt("Score", PlayerPrefs.GetInt("Score") + 30);
