@@ -47,19 +47,19 @@ public class BossBullet : MonoBehaviour
         if (this.delta > this.span && BossHP.HP > 8f)
         {
             this.delta = 0f;
-            RadialBullet(45, 1, bullet, bullets, transform);
+            RadialBullet(20, 45, 1, bullet, bullets, transform.position);
         }else if (this.delta > this.span && BossHP.HP > 6f)
         {
             this.span = 0.3f;
             this.delta = 0f;
-            RadialBullet(10, 2, bullet, bullets, transform);
+            RadialBullet(20, 10, 2, bullet, bullets, transform.position);
         }
         else if(this.delta > this.span)
         {
             this.span2 = 3f;
             this.span = 0.4f;
             this.delta = 0f;
-            RadialBullet(180, this.AngleDif, bullet, bullets, transform);
+            RadialBullet(32, 180, this.AngleDif, bullet, bullets, transform.position);
             ++this.AngleDif;
             if (this.AngleDif > 360) this.AngleDif = 0;
         }
@@ -88,15 +88,22 @@ public class BossBullet : MonoBehaviour
      /// <param name="difference">弾幕の角度の差</param>
      /// <param name="bullet">弾</param>
      /// <param name="bullets">bulletのclone</param>
-    void RadialBullet(float limit, float difference, GameObject bullet, Transform bullets, Transform BossTrans)
+    void RadialBullet(int split, float limit, float difference, GameObject bullet, Transform bullets, Vector3 BossPos)
     {
         this.AngleParam += this.AngleDif;
         if (this.AngleParam >= limit) this.AngleDif = -difference;
         if (this.AngleParam < 0f) this.AngleDif = difference;
         
-        for (int angle = 0; angle < 20; ++angle)
+        for (int angle = 0; angle < split; ++angle)
         {
-            InstBullet(BossTrans.position, Quaternion.Euler(0f, 0f, angle * 18f + this.AngleParam), bullet, bullets);
+            InstBullet(BossPos, Quaternion.Euler(0f, 0f, angle * 360f / split + this.AngleParam), bullet, bullets);
+        }
+    }
+    void RadialBullet(int split, GameObject bullet, Transform bullets, Vector3 BossPos)
+    {
+        for (int angle = 0; angle < split; ++angle)
+        {
+            InstBullet(BossPos, Quaternion.Euler(0f, 0f, angle * 360f / split), bullet, bullets);
         }
     }
 
@@ -143,7 +150,7 @@ public class BossBullet : MonoBehaviour
             for(int i = 0; i < 3; ++i){
                 for(int j = 0; j < 3; ++j){
                     BulletGen[i][j].GetComponent<Text>().text = "　";
-                    //RadialBullet(0, 0, bullet, bullets, BulletGen[i][j].transform);
+                    RadialBullet(8, bullet, bullets, Camera.main.ScreenToWorldPoint(BulletGen[i][j].transform.position) + new Vector3(0, 0, 10));
                 }
             }
             this.HachioujiDelta = 0f;
