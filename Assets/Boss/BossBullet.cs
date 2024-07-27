@@ -7,6 +7,8 @@ public class BossBullet : MonoBehaviour
 {
     float span = 0.6f, delta = 0f, AngleParam = 0f, AngleDif = 1f, d;
     float span2 = 6f, delta2 = 0, HachioujiSpan = 1f, HachioujiDelta = 0f;
+    int _p_;
+    bool Hachiouji1, Hachiouji2, Hachiouji3;
 
     public static float PlayerR = 0.1f;
     float BulletR = 0.1f, FollowBulletR = 0.15f;
@@ -19,7 +21,8 @@ public class BossBullet : MonoBehaviour
     
     void Start()
     {
-        d = 0;
+        d = 0; _p_ = 1;
+        Hachiouji1 = Hachiouji2 = Hachiouji3 = false;
         this.player = GameObject.Find("Player");
         bullet = GameObject.Find("Bullets");
         bullets = new GameObject("Bullet").transform;
@@ -131,20 +134,26 @@ public class BossBullet : MonoBehaviour
     /// <param name="bullets">bulletのcloneたち</param>
     void HachioujiBullet(GameObject bullet, Transform bullets){
         this.HachioujiDelta += Time.deltaTime;
-        if(HachioujiDelta >= 1f){
-            BulletGen[0][0].GetComponent<Text>().text = "八";
-            BulletGen[0][1].GetComponent<Text>().text = "王";
-            BulletGen[0][2].GetComponent<Text>().text = "子";
+        if(HachioujiDelta >= 1f && ! Hachiouji1){
+            string tmp = HachioujiString(_p_);
+            BulletGen[0][0].GetComponent<Text>().text = tmp[0].ToString();
+            BulletGen[0][1].GetComponent<Text>().text = tmp[1].ToString();
+            BulletGen[0][2].GetComponent<Text>().text = tmp[2].ToString();
+            Hachiouji1 = true;
         }
-        if(HachioujiDelta >= 2f){
-            BulletGen[1][0].GetComponent<Text>().text = "八";
-            BulletGen[1][1].GetComponent<Text>().text = "王";
-            BulletGen[1][2].GetComponent<Text>().text = "子";
+        if(HachioujiDelta >= 2f && ! Hachiouji2){
+            string tmp = HachioujiString(_p_);
+            BulletGen[1][0].GetComponent<Text>().text = tmp[0].ToString();
+            BulletGen[1][1].GetComponent<Text>().text = tmp[1].ToString();
+            BulletGen[1][2].GetComponent<Text>().text = tmp[2].ToString();
+            Hachiouji2 = true;
         }
-        if(HachioujiDelta >= 3f){
-            BulletGen[2][0].GetComponent<Text>().text = "八";
-            BulletGen[2][1].GetComponent<Text>().text = "王";
-            BulletGen[2][2].GetComponent<Text>().text = "子";
+        if(HachioujiDelta >= 3f && ! Hachiouji3){
+            string tmp = HachioujiString(_p_);
+            BulletGen[2][0].GetComponent<Text>().text = tmp[0].ToString();
+            BulletGen[2][1].GetComponent<Text>().text = tmp[1].ToString();
+            BulletGen[2][2].GetComponent<Text>().text = tmp[2].ToString();
+            Hachiouji3 = true;
         }
         if(HachioujiDelta >= 5f){
             for(int i = 0; i < 3; ++i){
@@ -153,11 +162,18 @@ public class BossBullet : MonoBehaviour
                     RadialBullet(8, bullet, bullets, Camera.main.ScreenToWorldPoint(BulletGen[i][j].transform.position) + new Vector3(0, 0, 10));
                 }
             }
+            Hachiouji1 = Hachiouji2 = Hachiouji3 = false;
+            ++_p_; if(_p_ == 10) _p_ = 1;
             this.HachioujiDelta = 0f;
         }
     }
 
 
+    /// <summary>
+    /// 八王子弾幕に用いる三字熟語を生成する関数
+    /// </summary>
+    /// <param name="p">なんかパラメタ</param>
+    /// <returns>三字熟語</returns>
     string HachioujiString(int p){
         if(p == 1){
             int N = 6, t = Random.Range(0, N);
@@ -173,12 +189,64 @@ public class BossBullet : MonoBehaviour
             if(t % N == 0) return "二盃口";
             if(t % N == 1) return "二条城";
             if(t % N == 2) return "二分法";
+            if(t % N == 3) return "二同刻";
+        }
+        if(p == 3){
+            int N = 10, t = Random.Range(0, N);
+            if(t % N == 0) return "三槓子";
+            if(t % N == 1) return "三暗刻";
+            if(t % N == 2) return "三十路";
+            if(t % N == 3) return "三ノ宮";
+            if(t % N == 4) return "御三家";
+            if(t % N == 5) return "三つ巴";
+            if(t % N == 6) return "三角州";
+            if(t % N == 7) return "大三元";
+            if(t % N == 8) return "小三元";
+            if(t % N == 9) return "三連刻";
+        }
+        if(p == 4){
+            int N = 8, t = Random.Range(0, N);
+            if(t % N == 0) return "四槓子";
+            if(t % N == 1) return "四暗刻";
+            if(t % N == 2) return "四十肩";
+            if(t % N == 3) return "四畳半";
+            if(t % N == 4) return "四天王";
+            if(t % N == 5) return "小四喜";
+            if(t % N == 6) return "大四喜";
+            if(t % N == 7) return "四連刻";
+        }
+        if(p == 5){
+            int N = 4, t = Random.Range(0, N);
+            if(t % N == 0) return "五賢帝";
+            if(t % N == 1) return "五十肩";
+            if(t % N == 2) return "五門斉";
+            if(t % N == 3) return "五線譜";
+        }
+        if(p == 6){
+            int N = 3, t = Random.Range(0, N);
+            if(t % N == 0) return "六本木";
+            if(t % N == 1) return "大六天";
+            if(t % N == 2) return "六甲山";
+        }
+        if(p == 7){
+            int N = 4, t = Random.Range(0, N);
+            if(t % N == 0) return "七対子";
+            if(t % N == 1) return "大七星";
+            if(t % N == 2) return "七分丈";
+            if(t % N == 3) return "初七日";
         }
         if(p == 8){
             return "八王子";
         }
+        if(p == 9){
+            int N = 4, t = Random.Range(0, N);
+            if(t % N == 0) return "九番茶";
+            if(t % N == 1) return "九条葱";
+            if(t % N == 2) return "幺九牌";
+            if(t % N == 3) return "断幺九";
+        }
         // avoid error
-        else return "";
+        return "";
     }
 
 
