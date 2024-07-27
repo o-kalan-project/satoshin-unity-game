@@ -158,6 +158,30 @@ public class BossBullet : MonoBehaviour
     }
 
 
+    string HachioujiString(int p){
+        if(p == 1){
+            int N = 6, t = Random.Range(0, N);
+            if(t % N == 0) return "一番星";
+            if(t % N == 1) return "一盃口";
+            if(t % N == 2) return "一張羅";
+            if(t % N == 3) return "清一色";
+            if(t % N == 4) return "緑一色";
+            if(t % N == 5) return "混一色";
+        }
+        if(p == 2){
+            int N = 3, t = Random.Range(0, N);
+            if(t % N == 0) return "二盃口";
+            if(t % N == 1) return "二条城";
+            if(t % N == 2) return "二分法";
+        }
+        if(p == 8){
+            return "八王子";
+        }
+        // avoid error
+        else return "";
+    }
+
+
     /********************************
      * 
      * �e���𐶐�����֐�
