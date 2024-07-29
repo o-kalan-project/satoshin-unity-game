@@ -9,4 +9,18 @@ public class SceneChange : MonoBehaviour
     {
         SceneManager.LoadScene("Result");
     }
+
+    public static void Title()
+    {
+        SceneManager.LoadScene("Title");
+    }
+
+    public static void Battle()
+    {
+        SceneManager.LoadScene("BattleScene");
+    }
+
+    public static void Manual(){
+        SceneManager.LoadScene("Manual");
+    }
 }

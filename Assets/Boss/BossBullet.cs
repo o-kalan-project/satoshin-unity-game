@@ -176,23 +176,33 @@ public class BossBullet : MonoBehaviour
     /// <returns>三字熟語</returns>
     string HachioujiString(int p){
         if(p == 1){
-            int N = 6, t = Random.Range(0, N);
+            int N = 11, t = Random.Range(0, N);
             if(t % N == 0) return "一番星";
             if(t % N == 1) return "一盃口";
             if(t % N == 2) return "一張羅";
             if(t % N == 3) return "清一色";
             if(t % N == 4) return "緑一色";
             if(t % N == 5) return "混一色";
+            if(t % N == 6) return "一向聴";
+            if(t % N == 7) return "一太郎";
+            if(t % N == 8) return "一般人";
+            if(t % N == 9) return "一周忌";
+            if(t % N == 10) return "一段落";
+            if(t % N == 11) return "紅一点";
         }
         if(p == 2){
-            int N = 3, t = Random.Range(0, N);
+            int N = 8, t = Random.Range(0, N);
             if(t % N == 0) return "二盃口";
             if(t % N == 1) return "二条城";
             if(t % N == 2) return "二分法";
             if(t % N == 3) return "二同刻";
+            if(t % N == 4) return "二次体";
+            if(t % N == 5) return "二向聴";
+            if(t % N == 6) return "青二才";
+            if(t % N == 7) return "二等兵";
         }
         if(p == 3){
-            int N = 10, t = Random.Range(0, N);
+            int N = 14, t = Random.Range(0, N);
             if(t % N == 0) return "三槓子";
             if(t % N == 1) return "三暗刻";
             if(t % N == 2) return "三十路";
@@ -203,9 +213,14 @@ public class BossBullet : MonoBehaviour
             if(t % N == 7) return "大三元";
             if(t % N == 8) return "小三元";
             if(t % N == 9) return "三連刻";
+            if(t % N == 10) return "三向聴";
+            if(t % N == 11) return "三葉虫";
+            if(t % N == 12) return "三回忌";
+            if(t % N == 13) return "三隣亡";
+            if(t % N == 14) return "三が日";
         }
         if(p == 4){
-            int N = 8, t = Random.Range(0, N);
+            int N = 10, t = Random.Range(0, N);
             if(t % N == 0) return "四槓子";
             if(t % N == 1) return "四暗刻";
             if(t % N == 2) return "四十肩";
@@ -214,36 +229,44 @@ public class BossBullet : MonoBehaviour
             if(t % N == 5) return "小四喜";
             if(t % N == 6) return "大四喜";
             if(t % N == 7) return "四連刻";
+            if(t % N == 8) return "四十物";
+            if(t % N == 9) return "四面体";
         }
         if(p == 5){
-            int N = 4, t = Random.Range(0, N);
+            int N = 6, t = Random.Range(0, N);
             if(t % N == 0) return "五賢帝";
             if(t % N == 1) return "五十肩";
             if(t % N == 2) return "五門斉";
             if(t % N == 3) return "五線譜";
+            if(t % N == 4) return "五行説";
+            if(t % N == 5) return "五反田";
         }
         if(p == 6){
-            int N = 3, t = Random.Range(0, N);
+            int N = 4, t = Random.Range(0, N);
             if(t % N == 0) return "六本木";
             if(t % N == 1) return "大六天";
             if(t % N == 2) return "六甲山";
+            if(t % N == 3) return "六斎市";
         }
         if(p == 7){
-            int N = 4, t = Random.Range(0, N);
+            int N = 6, t = Random.Range(0, N);
             if(t % N == 0) return "七対子";
             if(t % N == 1) return "大七星";
             if(t % N == 2) return "七分丈";
             if(t % N == 3) return "初七日";
+            if(t % N == 4) return "七龍珠";
+            if(t % N == 5) return "七草粥";
         }
         if(p == 8){
             return "八王子";
         }
         if(p == 9){
-            int N = 4, t = Random.Range(0, N);
+            int N = 5, t = Random.Range(0, N);
             if(t % N == 0) return "九番茶";
             if(t % N == 1) return "九条葱";
             if(t % N == 2) return "幺九牌";
             if(t % N == 3) return "断幺九";
+            if(t % N == 4) return "九段下";
         }
         // avoid error
         return "";
