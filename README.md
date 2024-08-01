@@ -1,11 +1,14 @@
 # satoshin-unity-game
 さとしんが作っている弾幕ゲーム。コードとか読みづらいかも
 
+## 遊べる場所
+[https://unityroom.com/games/nico_test](https://unityroom.com/games/nico_test)
+
 ## 実装されていること
-普通の弾幕、追従弾幕、失敗画面
+普通の弾幕、追従弾幕、失敗画面、八王子、タイトル画面、マニュアル
 
 ## これからやっていきたいこと
-八王子、クリア画面、タイトル画面etc.
+クリア画面etc.
 
 ## 使用素材
 

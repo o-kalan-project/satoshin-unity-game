@@ -17,6 +17,7 @@ public class SceneChange : MonoBehaviour
 
     public static void Battle()
     {
+        BossHP.HP = PlayerHP.HP = 10f;
         SceneManager.LoadScene("BattleScene");
     }
 
