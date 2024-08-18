@@ -16,7 +16,7 @@ public class BossComment : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        N = 18;
+        N = 22;
 
         Random.InitState(System.DateTime.Now.Millisecond);
         this.player = GameObject.Find("Player");
@@ -71,7 +71,7 @@ public class BossComment : MonoBehaviour
 
     /********************************
      * 
-     * ’e–‹‚ğ¶¬‚·‚éŠÖ”
+     * ï¿½eï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½Öï¿½
      * 
      ********************************/
     void InstBullet(Vector3 pos, GameObject Comment, Transform Comments)

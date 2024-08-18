@@ -79,7 +79,6 @@ public class BossBullet : MonoBehaviour
         // �����蔻��
         CollisionDetection(BulletR, bullet, bullets);
         CollisionDetection(FollowBulletR, followBullet, followBullets);
-
     }
 
 
@@ -121,7 +120,8 @@ public class BossBullet : MonoBehaviour
     {
         float angle, tmp;
         tmp = (transform.position.y - this.player.transform.position.y) / (transform.position.x - this.player.transform.position.x);
-        angle = 180f + Mathf.Abs(Mathf.Atan(tmp)) * 180f / Mathf.PI;
+        if(this.player.transform.position.x > 0) angle = Mathf.Atan(tmp) * 180f / Mathf.PI;
+        else angle = 180f + Mathf.Atan(tmp) * 180f / Mathf.PI;
 
         InstBullet(transform.position, Quaternion.Euler(0f, 0f, angle), bullet, bullets);
     }
@@ -220,7 +220,7 @@ public class BossBullet : MonoBehaviour
             if(t % N == 14) return "三が日";
         }
         if(p == 4){
-            int N = 10, t = Random.Range(0, N);
+            int N = 11, t = Random.Range(0, N);
             if(t % N == 0) return "四槓子";
             if(t % N == 1) return "四暗刻";
             if(t % N == 2) return "四十肩";
@@ -231,6 +231,7 @@ public class BossBullet : MonoBehaviour
             if(t % N == 7) return "四連刻";
             if(t % N == 8) return "四十物";
             if(t % N == 9) return "四面体";
+            if(t % N == 10) return "雨四光";
         }
         if(p == 5){
             int N = 6, t = Random.Range(0, N);
@@ -273,11 +274,13 @@ public class BossBullet : MonoBehaviour
     }
 
 
-    /********************************
-     * 
-     * �e���𐶐�����֐�
-     * 
-     ********************************/
+    /// <summary>
+    /// 弾幕を生成する。
+    /// </summary>
+    /// <param name="pos">中心</param>
+    /// <param name="rotation">角度</param>
+    /// <param name="bullet"></param>
+    /// <param name="bullets"></param>
     void InstBullet(Vector3 pos, Quaternion rotation, GameObject bullet, Transform bullets)
     {
         foreach (Transform t in bullets)
