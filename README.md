@@ -1,6 +1,8 @@
 # satoshin-unity-game
 さとしんが作っている弾幕ゲーム。コードとか読みづらいかも
 
+このゲームは没にはなっていないとは思いますが，今後更新される可能性はほぼありません．
+
 ## 遊べる場所
 [https://unityroom.com/games/nico_test](https://unityroom.com/games/nico_test)
 
